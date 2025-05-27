@@ -41,9 +41,10 @@ public class KeyEventEx01 extends JFrame {
 		public void keyPressed(KeyEvent e) {
 			int keyCode = e.getKeyCode();    // 키 코드 알아내기
 			char keyChar = e.getKeyChar();   // 키 문자 값 알아내기
+			String keyName = e.getKeyText(keyCode);  // 키의 이름 알아내기
 			label[0].setText(Integer.toString(keyCode));     // 키 코드 출력
 			label[1].setText(Character.toString(keyChar));   // 키 문자 출력
-			label[2].setText(KeyEvent.getKeyText(keyCode));  // 키 이름 문자열 출력
+			label[2].setText(keyName);  // 키의 이름 출력
 		}
 	}
 	
