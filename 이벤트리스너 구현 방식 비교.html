@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Java 이벤트 리스너 구현 방식 비교</title>
+    <style>
+        body {
+            font-family: 'Malgun Gothic', Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 40px;
+        }
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        .method-card {
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            background: #fafafa;
+            transition: transform 0.3s ease;
+        }
+        .method-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        .method-card.independent {
+            border-color: #e74c3c;
+        }
+        .method-card.inner {
+            border-color: #3498db;
+        }
+        .method-card.anonymous {
+            border-color: #27ae60;
+        }
+        .method-title {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        .independent .method-title {
+            color: #e74c3c;
+        }
+        .inner .method-title {
+            color: #3498db;
+        }
+        .anonymous .method-title {
+            color: #27ae60;
+        }
+        .diagram {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 15px 0;
+            text-align: center;
+            min-height: 120px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .class-box {
+            display: inline-block;
+            border: 2px solid #333;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 5px;
+            background: #fff;
+        }
+        .independent-diagram .class-box {
+            border-color: #e74c3c;
+        }
+        .inner-diagram .class-box {
+            border-color: #3498db;
+        }
+        .anonymous-diagram .class-box {
+            border-color: #27ae60;
+        }
+        .main-class {
+            background: #ecf0f1 !important;
+        }
+        .listener-class {
+            background: #fff2f0 !important;
+        }
+        .inner-class {
+            background: #f0f8ff !important;
+        }
+        .anonymous-class {
+            background: #f0fff0 !important;
+        }
+        .arrow {
+            font-size: 20px;
+            margin: 0 10px;
+        }
+        .pros-cons {
+            margin-top: 15px;
+        }
+        .pros, .cons {
+            margin: 10px 0;
+        }
+        .pros h4, .cons h4 {
+            margin: 5px 0;
+            font-size: 1.1em;
+        }
+        .pros h4 {
+            color: #27ae60;
+        }
+        .cons h4 {
+            color: #e74c3c;
+        }
+        .pros ul, .cons ul {
+            margin: 5px 0;
+            padding-left: 20px;
+        }
+        .summary {
+            background: #2c3e50;
+            color: white;
+            padding: 25px;
+            border-radius: 8px;
+            margin-top: 30px;
+        }
+        .summary h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        .summary-item {
+            background: rgba(255,255,255,0.1);
+            padding: 15px;
+            border-radius: 5px;
+        }
+        .code-sample {
+            background: #f8f9fa;
+            border-left: 4px solid #007bff;
+            padding: 10px;
+            margin: 10px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Java 이벤트 리스너 구현 방식 비교</h1>
+        
+        <div class="comparison-grid">
+            <!-- 독립 클래스 방식 -->
+            <div class="method-card independent">
+                <div class="method-title">1. 독립 클래스 (Independent Class)</div>
+                <div class="diagram independent-diagram">
+                    <div>
+                        <div class="class-box main-class">EventEx01<br>(메인 클래스)</div>
+                        <span class="arrow">→</span>
+                        <div class="class-box listener-class">MyActionListener<br>(별도 클래스)</div>
+                    </div>
+                </div>
+                <div class="code-sample">
+class MyActionListener implements ActionListener {
+    private JTextArea textArea;
+    // 생성자로 참조 전달
+}</div>
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4>✅ 장점</h4>
+                        <ul>
+                            <li>재사용 가능</li>
+                            <li>코드 구조가 명확</li>
+                            <li>유지보수 용이</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h4>❌ 단점</h4>
+                        <ul>
+                            <li>별도 클래스 파일 필요</li>
+                            <li>생성자로 참조 전달 필요</li>
+                            <li>코드 복잡도 증가</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 내부 클래스 방식 -->
+            <div class="method-card inner">
+                <div class="method-title">2. 내부 클래스 (Inner Class)</div>
+                <div class="diagram inner-diagram">
+                    <div>
+                        <div class="class-box main-class">
+                            EventEx02<br>
+                            <div class="class-box inner-class" style="margin-top: 10px; font-size: 0.8em;">
+                                MyActionListener<br>(내부 클래스)
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="code-sample">
+public class EventEx02 extends JFrame {
+    private class MyActionListener implements ActionListener {
+        // 외부 클래스의 멤버에 직접 접근 가능
+    }
+}</div>
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4>✅ 장점</h4>
+                        <ul>
+                            <li>외부 클래스 멤버 직접 접근</li>
+                            <li>논리적 그룹핑</li>
+                            <li>캡슐화 강화</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h4>❌ 단점</h4>
+                        <ul>
+                            <li>외부 클래스 참조 유지</li>
+                            <li>메모리 사용량 증가</li>
+                            <li>재사용성 제한</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 익명 클래스 방식 -->
+            <div class="method-card anonymous">
+                <div class="method-title">3. 익명 클래스 (Anonymous Class)</div>
+                <div class="diagram anonymous-diagram">
+                    <div>
+                        <div class="class-box main-class">
+                            EventEx03<br>
+                            <div class="class-box anonymous-class" style="margin-top: 10px; font-size: 0.8em;">
+                                new ActionListener() {<br>익명 구현
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="code-sample">
+button_1.addActionListener(new ActionListener() {
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        textArea.append("클릭됨!\n");
+    }
+});</div>
+                <div class="pros-cons">
+                    <div class="pros">
+                        <h4>✅ 장점</h4>
+                        <ul>
+                            <li>코드가 간결</li>
+                            <li>즉석에서 구현</li>
+                            <li>클래스 파일 불필요</li>
+                        </ul>
+                    </div>
+                    <div class="cons">
+                        <h4>❌ 단점</h4>
+                        <ul>
+                            <li>재사용 불가</li>
+                            <li>디버깅 어려움</li>
+                            <li>코드 가독성 저하 (복잡한 경우)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="summary">
+            <h2>📚 언제 어떤 방식을 사용할까?</h2>
+            <div class="summary-grid">
+                <div class="summary-item">
+                    <h3>🔴 독립 클래스</h3>
+                    <p><strong>사용 시기:</strong> 여러 곳에서 재사용해야 하거나, 복잡한 로직이 필요한 경우</p>
+                    <p><strong>예시:</strong> 공통 유효성 검사, 파일 처리 등</p>
+                </div>
+                <div class="summary-item">
+                    <h3>🔵 내부 클래스</h3>
+                    <p><strong>사용 시기:</strong> 특정 클래스에서만 사용하며, 외부 클래스의 멤버에 접근이 필요한 경우</p>
+                    <p><strong>예시:</strong> 특정 UI 컴포넌트 전용 리스너</p>
+                </div>
+                <div class="summary-item">
+                    <h3>🟢 익명 클래스</h3>
+                    <p><strong>사용 시기:</strong> 간단한 일회성 구현이 필요한 경우</p>
+                    <p><strong>예시:</strong> 단순한 버튼 클릭 이벤트</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

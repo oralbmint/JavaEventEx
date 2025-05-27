@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EventSimple 코드 설명</title>
+    <style>
+        body {
+            font-family: 'Malgun Gothic', sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            display: flex;
+            gap: 20px;
+            max-width: 1400px;
+        }
+        .code-section {
+            flex: 1;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .explanation-section {
+            flex: 1;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        pre {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+        .highlight {
+            background-color: #fff3cd !important;
+            border: 2px solid #ffc107;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .highlight:hover {
+            background-color: #ffe69c !important;
+        }
+        .step-button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .step-button:hover {
+            background: #0056b3;
+        }
+        .step-button.active {
+            background: #28a745;
+        }
+        .explanation {
+            display: none;
+            background: #e7f3ff;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 10px;
+            border-left: 4px solid #007bff;
+        }
+        .explanation.active {
+            display: block;
+        }
+        h1, h2 {
+            color: #333;
+            margin-top: 0;
+        }
+        .concept-box {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            padding: 15px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>📚 EventSimple 코드 단계별 학습</h1>
+    
+    <div class="container">
+        <div class="code-section">
+            <h2>💻 소스 코드</h2>
+            <div style="margin-bottom: 15px;">
+                <button class="step-button" onclick="showStep(1)">1. 클래스 선언</button>
+                <button class="step-button" onclick="showStep(2)">2. 생성자</button>
+                <button class="step-button" onclick="showStep(3)">3. GUI 설정</button>
+                <button class="step-button" onclick="showStep(4)">4. 리스너 등록</button>
+                <button class="step-button" onclick="showStep(5)">5. 리스너 구현</button>
+                <button class="step-button" onclick="showStep(6)">6. 메인 메소드</button>
+            </div>
+            
+            <pre id="code-display">
+<span id="step1">public class EventSimple extends JFrame {</span>
+    <span id="step2">public EventSimple() throws HeadlessException {
+        super();
+        this.setTitle("event simple");
+        this.setSize(300, 100);
+        this.setDefaultCloseOperation(EXIT_ON_CLOSE);</span>
+        
+        <span id="step3">Container contentPane = this.getContentPane();
+        contentPane.setLayout(new FlowLayout());
+        JButton button1 = new JButton("Click!");
+        contentPane.add(button1);</span>
+        
+        <span id="step4">MyActionListener listener = new MyActionListener();
+        button1.addActionListener(listener);</span>
+        
+        this.setVisible(true);
+    }
+    
+    <span id="step5">class MyActionListener implements ActionListener {
+        public void actionPerformed(ActionEvent e) {
+            JButton btn = (JButton) e.getSource();
+            if (btn.getText().equals("Click!")) {
+                btn.setText("Clicked!");
+            } else {
+                btn.setText("Click!");
+            }
+        }
+    }</span>
+    
+    <span id="step6">public static void main(String[] args) {
+        new EventSimple();
+    }</span>
+}
+            </pre>
+        </div>
+        
+        <div class="explanation-section">
+            <h2>📖 단계별 설명</h2>
+            
+            <div id="explanation1" class="explanation">
+                <h3>🏗️ 1단계: 클래스 선언</h3>
+                <div class="concept-box">
+                    <strong>상속 관계:</strong> EventSimple이 JFrame을 상속받아 윈도우 기능을 가집니다.
+                </div>
+                <p>• <code>JFrame</code>: 스윙의 기본 윈도우 클래스</p>
+                <p>• 상속을 통해 윈도우의 모든 기능을 자동으로 획득</p>
+                <p>• 창 크기, 제목, 닫기 버튼 등의 기본 기능 포함</p>
+            </div>
+            
+            <div id="explanation2" class="explanation">
+                <h3>🔧 2단계: 생성자 - 기본 설정</h3>
+                <div class="concept-box">
+                    <strong>윈도우 초기화:</strong> 프레임의 기본 속성들을 설정합니다.
+                </div>
+                <p>• <code>setTitle()</code>: 윈도우 제목 설정</p>
+                <p>• <code>setSize()</code>: 윈도우 크기 설정 (가로 300px, 세로 100px)</p>
+                <p>• <code>setDefaultCloseOperation()</code>: X 버튼 클릭 시 프로그램 종료</p>
+            </div>
+            
+            <div id="explanation3" class="explanation">
+                <h3>🎨 3단계: GUI 컴포넌트 생성</h3>
+                <div class="concept-box">
+                    <strong>컴포넌트 배치:</strong> 버튼을 생성하고 윈도우에 추가합니다.
+                </div>
+                <p>• <code>getContentPane()</code>: 컴포넌트를 추가할 컨테이너 획득</p>
+                <p>• <code>FlowLayout</code>: 컴포넌트를 순서대로 배치하는 레이아웃</p>
+                <p>• <code>JButton</code>: 클릭 가능한 버튼 컴포넌트 생성</p>
+                <p>• <code>add()</code>: 버튼을 컨테이너에 추가</p>
+            </div>
+            
+            <div id="explanation4" class="explanation">
+                <h3>🔗 4단계: 이벤트 리스너 등록</h3>
+                <div class="concept-box">
+                    <strong>Observer 패턴:</strong> 버튼에 리스너를 등록하여 이벤트를 감지합니다.
+                </div>
+                <p>• <code>MyActionListener</code>: 내부 클래스로 정의된 리스너</p>
+                <p>• <code>addActionListener()</code>: 버튼에 리스너 등록</p>
+                <p>• 버튼 클릭 시 리스너의 <code>actionPerformed()</code> 메소드가 자동 호출</p>
+            </div>
+            
+            <div id="explanation5" class="explanation">
+                <h3>⚡ 5단계: 이벤트 처리 로직</h3>
+                <div class="concept-box">
+                    <strong>이벤트 핸들링:</strong> 버튼 클릭 시 실행될 코드를 구현합니다.
+                </div>
+                <p>• <code>ActionListener</code> 인터페이스 구현</p>
+                <p>• <code>e.getSource()</code>: 이벤트를 발생시킨 컴포넌트 참조</p>
+                <p>• <code>getText()</code>: 버튼의 현재 텍스트 확인</p>
+                <p>• <code>setText()</code>: 조건에 따라 버튼 텍스트 변경</p>
+                <p>• 토글 기능: "Click!" ↔ "Clicked!" 반복</p>
+            </div>
+            
+            <div id="explanation6" class="explanation">
+                <h3>🚀 6단계: 프로그램 시작점</h3>
+                <div class="concept-box">
+                    <strong>애플리케이션 실행:</strong> JVM이 가장 먼저 호출하는 메소드입니다.
+                </div>
+                <p>• <code>main()</code>: 자바 프로그램의 진입점</p>
+                <p>• <code>new EventSimple()</code>: 객체 생성과 동시에 생성자 실행</p>
+                <p>• 생성자에서 GUI 초기화 및 이벤트 리스너 등록 완료</p>
+            </div>
+            
+            <div id="explanation0" class="explanation active">
+                <h3>🎯 학습 목표</h3>
+                <p>이 예제를 통해 다음을 이해할 수 있습니다:</p>
+                <ul>
+                    <li><strong>이벤트 드리븐 프로그래밍</strong>: 사용자 액션에 반응하는 프로그램</li>
+                    <li><strong>Observer 패턴</strong>: 리스너를 통한 이벤트 감지</li>
+                    <li><strong>내부 클래스</strong>: 외부 클래스의 멤버에 접근 가능</li>
+                    <li><strong>인터페이스 구현</strong>: ActionListener 인터페이스</li>
+                </ul>
+                <p>👆 위의 단계별 버튼을 클릭하여 코드의 각 부분을 자세히 살펴보세요!</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function showStep(step) {
+            // 모든 설명 숨기기
+            document.querySelectorAll('.explanation').forEach(el => {
+                el.classList.remove('active');
+            });
+            
+            // 모든 버튼 비활성화
+            document.querySelectorAll('.step-button').forEach(el => {
+                el.classList.remove('active');
+            });
+            
+            // 모든 하이라이트 제거
+            document.querySelectorAll('span').forEach(el => {
+                el.classList.remove('highlight');
+            });
+            
+            // 선택된 단계 활성화
+            document.getElementById(`explanation${step}`).classList.add('active');
+            event.target.classList.add('active');
+            
+            // 해당 코드 부분 하이라이트
+            if (step > 0) {
+                document.getElementById(`step${step}`).classList.add('highlight');
+            }
+        }
+    </script>
+</body>
+</html>
