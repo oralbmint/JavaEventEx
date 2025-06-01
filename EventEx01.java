@@ -1,5 +1,3 @@
-package myswing;
-
 //독립된 클래스로 리스너 클래스 구현(같은 파일 내에 정의), 가장 전형적인 방법
 
 import java.awt.*;
