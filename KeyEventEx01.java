@@ -33,8 +33,8 @@ public class KeyEventEx01 extends JFrame {
 		// Container(컨텐트페인)를 키보드 포커스를 받을 수 있는 상태로 설정
 		// Container 클래스는 기본으로 focusable = false 임
 		// 이를 true로 변경해야 키보드 입력을 받을 수 있음
-		contentPane.setFocusable(true);
-		contentPane.requestFocus();  // requestFocus()는 컴포넌트에게 키보드 포커스 요청
+		contentPane.setFocusable(true); // 이 컴포넌트가 포커스를 받을 수 있게 설정
+		contentPane.requestFocus();  // 이 컴포넌트에게 키보드 포커스를 주세요.
 	}
 	
 	class MyKeyListener extends KeyAdapter {
