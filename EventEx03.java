@@ -1,5 +1,3 @@
-package myswing;
-
 //익명 클래스로 리스너 클래스를 작성
 
 import java.awt.*;
