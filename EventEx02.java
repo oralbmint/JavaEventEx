@@ -1,5 +1,3 @@
-package myswing;
-
 //내부 클래스로 리스너 클래스를 구현
 
 import java.awt.*;
